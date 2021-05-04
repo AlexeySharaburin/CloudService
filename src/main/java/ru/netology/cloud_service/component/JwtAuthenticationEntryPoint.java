@@ -1,4 +1,4 @@
-package ru.netology.cloud_service.config;
+package ru.netology.cloud_service.component;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
