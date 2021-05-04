@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="001" author="Alexey">
+        <insert tableName="user">
+<!--            <column name="file_path" value="cloud_drive/cloud_drive_0000001"/>-->
+            <column name="username" value="Alexey"/>
+            <column name="password" value="123"/>
+<!--            <column name="removed" value="false"/>-->
+        </insert>
+        <insert tableName="user">
+<!--            <column name="file_path" value="cloud_drive/cloud_drive_0000002"/>-->
+            <column name="username" value="Ivan"/>
+            <column name="password" value="321"/>
+<!--            <column name="removed" value="false"/>-->
+        </insert>
+    </changeSet>
+</databaseChangeLog>
