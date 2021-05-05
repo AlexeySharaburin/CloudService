@@ -25,4 +25,16 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String filePath;
+
+    @Column(nullable = false)
+    private Boolean isEnable;
+
+    public User(String username, String password, String filePath, Boolean isEnable) {
+        this.username = username;
+        this.password = password;
+        this.filePath = filePath;
+        this.isEnable = isEnable;
+    }
 }

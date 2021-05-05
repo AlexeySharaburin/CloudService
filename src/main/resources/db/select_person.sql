@@ -1,3 +1,0 @@
--- select *
--- from account p
--- where login = ? and pass =?;

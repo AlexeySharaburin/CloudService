@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.netology.cloud_service.model.MyUserPrincipal;
 import ru.netology.cloud_service.model.User;
-//import ru.netology.cloud_service.repository.UserDetailsRepository;
 import ru.netology.cloud_service.repository.UserRepository;
 
 

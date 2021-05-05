@@ -75,9 +75,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
-
-
-
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/login");
     }
@@ -108,5 +105,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
+
+//    insert into account (file_path, login, pass, removed)
+//    values ('cloud_drive/cloud_drive_0000002', 'Ivan',  '321', false)
+
+//    int strength = 10; // work factor of bcrypt
+//    BCryptPasswordEncoder bCryptPasswordEncoder =
+//            new BCryptPasswordEncoder(strength, new SecureRandom());
+//    String encodedPassword = bCryptPasswordEncoder.encode(plainPassword);
 
 }
