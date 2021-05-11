@@ -8,13 +8,13 @@
         <insert tableName="user">
             <column name="username" value="Alexey"/>
             <column name="password" value="$2a$10$kDCPdypIhqCL72gqHLHmteUnK/7TEI4HMpvTIz4h684UaLWt65ijm"/>
-            <column name="file_path" value="cloud_drive/cloud_drive_0000001"/>
+<!--            <column name="file_path" value="cloud_drive/cloud_drive_0000001"/>-->
             <column name="is_enable" value="true"/>
         </insert>
         <insert tableName="user">
             <column name="username" value="Ivan"/>
             <column name="password" value="$2a$10$HHAchyJtl14sbHZ4j4xX/u5Bg65ueaz.iRROMZ8ivy7ggjkMv5Rwe"/>
-            <column name="file_path" value="cloud_drive/cloud_drive_0000002"/>
+<!--            <column name="file_path" value="cloud_drive/cloud_drive_0000002"/>-->
             <column name="is_enable" value="true"/>
         </insert>
     </changeSet>

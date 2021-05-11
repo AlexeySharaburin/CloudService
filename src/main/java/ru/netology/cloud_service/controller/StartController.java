@@ -18,11 +18,13 @@ public class StartController {
     @GetMapping("/fill")
     public void fillBase() {
 
-        User userAlexey = new User("Alexey", encodePassword("123"), "cloud_drive/cloud_drive_0000001", true);
-        User userIvan = new User("Ivan", encodePassword("321"), "cloud_drive/cloud_drive_0000002", true);
-        userAlexey = userDaoRepository.save(userAlexey);
-        userIvan = userDaoRepository.save(userIvan);
-        System.out.println(userAlexey.toString() + " " + userIvan.toString());
+//        User userAlexey = new User("Alexey", encodePassword("123"), "cloud_drive/cloud_drive_0000001", true);
+//        User userIvan = new User("Ivan", encodePassword("321"), "cloud_drive/cloud_drive_0000002", true);
+//
+//
+//        userAlexey = userDaoRepository.save(userAlexey);
+//        userIvan = userDaoRepository.save(userIvan);
+//        System.out.println(userAlexey.toString() + " " + userIvan.toString());
 
     }
 

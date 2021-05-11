@@ -4,8 +4,13 @@ databaseChangeLog:
       file: migrations/001-fill_user.xml
       relativeToChangelogFile: true
 
+
+  - include:
+      file: migrations/002-fill_storage.xml
+      relativeToChangelogFile: true
+
 #  - include:
-#      file: migrations/002-fill_account.sql
+#      file: migrations/0000001.txt
 #      relativeToChangelogFile: true
 
 #  - changeSet:

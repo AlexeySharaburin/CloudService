@@ -13,23 +13,17 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 @Entity
-public class User implements Serializable {
+public class Storage implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String username;
+    @Column(nullable = false)
+    private String dataPath;
 
     @Column(nullable = false)
-    private String password;
+    private String fileName;
 
-    @OneToOne
-//    @JoinColumn
-    private Storage storage;
-
-    @Column(nullable = false)
-    private Boolean isEnable;
 
 }
