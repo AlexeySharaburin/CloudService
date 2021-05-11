@@ -9,6 +9,7 @@ databaseChangeLog:
       file: migrations/002-fill_storage.xml
       relativeToChangelogFile: true
 
+
 #  - include:
 #      file: migrations/0000001.txt
 #      relativeToChangelogFile: true

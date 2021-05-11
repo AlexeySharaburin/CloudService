@@ -6,11 +6,9 @@
 
     <changeSet id="002" author="Alexey">
         <insert tableName="storage">
-            <column name="data_path" value="cloud_drive/cloud_drive_0000001"/>
             <column name="file_name" value="cloud_drive/cloud_drive_0000001/0000001.txt"/>
         </insert>
         <insert tableName="storage">
-            <column name="data_path" value="cloud_drive/cloud_drive_0000002"/>
             <column name="file_name" value="cloud_drive/cloud_drive_0000002/0000002.txt"/>
         </insert>
     </changeSet>

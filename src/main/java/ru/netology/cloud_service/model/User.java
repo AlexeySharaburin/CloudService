@@ -25,11 +25,13 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    @OneToOne
-//    @JoinColumn
-    private Storage storage;
+    @Column(nullable = false)
+    private String dataPath;
 
     @Column(nullable = false)
     private Boolean isEnable;
 
+    @OneToOne
+    @JoinColumn
+    private Storage storage;
 }
