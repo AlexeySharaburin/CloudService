@@ -22,7 +22,7 @@ public class Storage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private Long id;
+    private Long idFile;
 
     @Column
     private String fileName;
@@ -33,9 +33,11 @@ public class Storage {
     @Column
     private Date date;
 
-    @ManyToOne
-    @JoinColumn
-    private UserData userData;
+    @Column
+    private String username;
+//    @ManyToOne
+//    @JoinColumn
+//    private UserData userData;
 //    private HashMap<String, Date> files;
 
 }

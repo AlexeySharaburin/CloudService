@@ -3,7 +3,7 @@
 
 create table user_data
 (
-    id        serial       NOT NULL,
+    id_user        serial       NOT NULL,
     username  VARCHAR(255) NOT NULL primary key,
     password  VARCHAR(255) NOT NULL,
     data_path VARCHAR(255) NOT NULL,
@@ -12,10 +12,13 @@ create table user_data
 
 create table storage
 (
-    id        serial    NOT NULL primary key,
+    id_file        serial    NOT NULL primary key,
     file_name VARCHAR(255),
     is_exist  boolean,
-    date      timestamp not null default now()
+    date      timestamp not null default now(),
+    username  VARCHAR(255) NOT NULL,
+    constraint FK_username FOREIGN KEY (username)
+    references user_data(username)
 );
 
 create INDEX index_user
