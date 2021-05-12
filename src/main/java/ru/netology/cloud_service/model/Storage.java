@@ -15,9 +15,22 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Embeddable
+//@Embeddable
+@Entity
 public class Storage {
 
-    private HashMap<String, Date> files;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column
+    private String fileName;
+
+    @Column
+    private Boolean isExist;
+
+    @Column
+    private Date date;
+//    private HashMap<String, Date> files;
 
 }

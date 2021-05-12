@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="002" author="Alexey">
+        <insert tableName="storage">
+            <column name="is_exist" value="true"/>
+            <column name="file_name" value="cloud_drive/cloud_drive_0000001/0000001.txt"/>
+        </insert>
+        <insert tableName="storage">
+            <column name="is_exist" value="true"/>
+            <column name="file_name" value="cloud_drive/cloud_drive_0000002/0000002.txt"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

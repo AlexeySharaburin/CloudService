@@ -13,10 +13,10 @@ import java.util.Collection;
 @Builder
 public class MyUserPrincipal implements UserDetails {
 
-    private User user;
+    private UserData userData;
 
-    public MyUserPrincipal(User user) {
-        this.user = user;
+    public MyUserPrincipal(UserData userData) {
+        this.userData = userData;
     }
 
     @Override
@@ -26,12 +26,12 @@ public class MyUserPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return userData.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return userData.getUsername();
     }
 
     @Override

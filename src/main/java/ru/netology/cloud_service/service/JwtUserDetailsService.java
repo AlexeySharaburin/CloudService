@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.netology.cloud_service.model.MyUserPrincipal;
-import ru.netology.cloud_service.model.User;
+import ru.netology.cloud_service.model.UserData;
 import ru.netology.cloud_service.repository.UserRepository;
 
 
@@ -18,11 +18,11 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
+        UserData userData = userRepository.findByUsername(username);
+        if (userData == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new MyUserPrincipal(user);
+        return new MyUserPrincipal(userData);
     }
 }
 

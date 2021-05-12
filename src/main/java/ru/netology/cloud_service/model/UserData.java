@@ -13,12 +13,13 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 @Entity
-public class User implements Serializable {
+public class UserData implements Serializable {
 
-    @Id
+//    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Id
     @Column(nullable = false, unique = true)
     private String username;
 
@@ -31,6 +32,7 @@ public class User implements Serializable {
     @Column(nullable = false)
     private Boolean isEnable;
 
-    @Embedded
+    @OneToOne
+    @JoinColumn
     private Storage storage;
 }

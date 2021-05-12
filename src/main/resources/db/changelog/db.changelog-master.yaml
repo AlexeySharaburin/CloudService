@@ -1,13 +1,17 @@
 databaseChangeLog:
 
   - include:
-      file: migrations/001-fill_user.xml
+      file: migrations/001-schemas user and storage.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: migrations/002-fill_user.xml
       relativeToChangelogFile: true
 
 
-#  - include:
-#      file: migrations/002-fill_storage.xml
-#      relativeToChangelogFile: true
+  - include:
+      file: migrations/003-fill_storage.xml
+      relativeToChangelogFile: true
 
 
 #  - include:
