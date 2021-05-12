@@ -31,7 +31,6 @@ public class User implements Serializable {
     @Column(nullable = false)
     private Boolean isEnable;
 
-    @OneToOne
-    @JoinColumn
+    @Embedded
     private Storage storage;
 }
