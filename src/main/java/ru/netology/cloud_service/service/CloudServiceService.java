@@ -9,7 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ru.netology.cloud_service.component.JwtTokenUtil;
 import ru.netology.cloud_service.model.AuthRequest;
+import ru.netology.cloud_service.model.AuthToken;
+import ru.netology.cloud_service.model.FileRequest;
+import ru.netology.cloud_service.repository.CloudServiceRepository;
+import ru.netology.cloud_service.repository.StorageRepository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,18 +30,25 @@ public class CloudServiceService {
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
 
+
+
+    private final CloudServiceRepository cloudServiceRepository;
+
+    public CloudServiceService(CloudServiceRepository cloudServiceRepository) {
+        this.cloudServiceRepository = cloudServiceRepository;
+    }
+
     public Map<String, String> tokenRepository = new ConcurrentHashMap<>();
 
 
-    public String createAuthenticationToken (AuthRequest authRequest) throws Exception {
+    public String createAuthenticationToken(AuthRequest authRequest) throws Exception {
         String username = authRequest.getLogin();
         authenticate(username, authRequest.getPassword());
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
         final String token = jwtTokenUtil.generateToken(userDetails);
-        tokenRepository.put(username, token);
+        tokenRepository.put(token, username);
         return token;
     }
-
 
     private void authenticate(String username, String password) throws Exception {
         try {
@@ -47,5 +59,27 @@ public class CloudServiceService {
             throw new Exception("INVALID_CREDENTIALS!", e);
         }
     }
+
+    public Boolean removeToken(String authToken) {
+        if (tokenRepository.remove(authToken) != null) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public List<FileRequest> listFiles(String authToken) {
+        System.out.println("Service");
+        String username = tokenRepository.get(authToken);
+        List<FileRequest> files = cloudServiceRepository.listFiles(username);
+        if (!files.isEmpty()) {
+            return files;
+        }
+
+        return null;
+    }
+
+
+
 
 }

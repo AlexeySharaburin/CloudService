@@ -17,8 +17,10 @@ create table storage
     is_exist  boolean,
     date      timestamp not null default now(),
     username  VARCHAR(255) NOT NULL,
-    constraint FK_username FOREIGN KEY (username)
-    references user_data(username)
+    file_size integer,
+    FOREIGN KEY (username) REFERENCES user_data(username)
+--     constraint FK_username FOREIGN KEY (username)
+--     references user_data(username)
 );
 
 create INDEX index_user

@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,7 +15,8 @@ import java.util.List;
 @Builder
 //@Embeddable
 @Entity
-public class Storage {
+
+public class Storage implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,9 +34,24 @@ public class Storage {
 
     @Column
     private String username;
+
+    @Column
+    private Integer fileSize;
+
 //    @ManyToOne
 //    @JoinColumn
 //    private UserData userData;
 //    private HashMap<String, Date> files;
+
+//    public static boolean flag;
+//
+//    @Override
+//    public int compareTo(Storage o) {
+////        if (flag) {
+//            return (this.getFileName().compareTo(o.getFileName()));
+////        } else {
+////            return (this.contact.getEmail().compareTo(o.contact.getEmail()));
+////        }
+//    }
 
 }

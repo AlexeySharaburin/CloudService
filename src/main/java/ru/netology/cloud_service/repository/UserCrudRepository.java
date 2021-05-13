@@ -6,5 +6,6 @@ import ru.netology.cloud_service.model.UserData;
 
 
 @Repository
-public interface UserDaoRepository extends CrudRepository<UserData, Long> {
+public interface UserCrudRepository extends CrudRepository<UserData, String> {
+
 }
