@@ -1,5 +1,6 @@
 package ru.netology.cloud_service.model;
 
+import jdk.jfr.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,10 +19,13 @@ import java.util.Date;
 
 public class Storage implements Serializable{
 
+
+    private static int flag;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private Long idFile;
+    private Long id;
 
     @Column
     private String fileName;
@@ -30,13 +34,18 @@ public class Storage implements Serializable{
     private Boolean isExist;
 
     @Column
+//    @Timestamp
     private Date date;
 
     @Column
-    private String username;
+    private long userId;
+
 
     @Column
-    private Integer fileSize;
+    private long fileSize;
+
+//    @Column
+//    private String username;
 
 //    @ManyToOne
 //    @JoinColumn

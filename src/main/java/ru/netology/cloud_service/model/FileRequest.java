@@ -16,7 +16,7 @@ public class FileRequest implements Serializable, Comparable<FileRequest> {
 
     private String fileName;
 
-    private Integer fileSize;
+    private long fileSize;
 
 
     @Override

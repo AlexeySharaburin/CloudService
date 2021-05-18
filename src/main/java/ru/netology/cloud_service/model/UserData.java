@@ -15,12 +15,12 @@ import java.io.Serializable;
 @Entity
 public class UserData implements Serializable {
 
-//    @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private Long idUser;
+    private Long id;
 
-    @Id
+//    @Id
     @Column(nullable = false, unique = true)
     private String username;
 

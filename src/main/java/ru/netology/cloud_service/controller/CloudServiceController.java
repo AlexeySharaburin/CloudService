@@ -1,23 +1,47 @@
 package ru.netology.cloud_service.controller;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import ru.netology.cloud_service.model.AuthRequest;
 import ru.netology.cloud_service.model.AuthToken;
 import ru.netology.cloud_service.model.FileRequest;
+import ru.netology.cloud_service.model.Limit;
 import ru.netology.cloud_service.service.CloudServiceService;
 
+import java.security.SecureRandom;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/")
+@RequestMapping("/")
 public class CloudServiceController {
 
     private final CloudServiceService cloudServiceService;
 
     public CloudServiceController(CloudServiceService cloudServiceService) {
         this.cloudServiceService = cloudServiceService;
+    }
+
+//    @Bean(name = "multipartResolver")
+//    public CommonsMultipartResolver multipartResolver() {
+//        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+//        multipartResolver.setMaxUploadSize(100000);
+//        return multipartResolver;
+//    }
+
+    @GetMapping("/encode")
+    public String encodePassword(String password) {
+        System.out.println("Ваш пароль: " + password);
+        int strength = 10; // work factor of bcrypt
+        BCryptPasswordEncoder bCryptPasswordEncoder =
+                new BCryptPasswordEncoder(strength, new SecureRandom());
+        String encodePassword = bCryptPasswordEncoder.encode(password);
+        System.out.println("Ваш закодированный пароль: " + encodePassword);
+        return encodePassword;
     }
 
     @PostMapping("/login")
@@ -29,15 +53,9 @@ public class CloudServiceController {
                 : new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-
-
-//    @RequestMapping(value = "/logout",
-//            produces = "application/json",
-//            method = {RequestMethod.GET, RequestMethod.POST})
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestHeader("auth-token") String authToken) throws Exception {
-        System.out.println("Controller_logout");
-        System.out.println(authToken);
+        System.out.println("Controller_logout. Auth-token: " + authToken);
         final Boolean isRemove = cloudServiceService.removeToken(authToken);
         return isRemove
                 ? new ResponseEntity<>("Token is removed", HttpStatus.OK)
@@ -45,30 +63,39 @@ public class CloudServiceController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<FileRequest>> listFiles(@RequestHeader("auth-token") String authToken) throws Exception {
-        final List<FileRequest> files = cloudServiceService.listFiles(authToken);
+    public ResponseEntity<List<FileRequest>> getAllFiles(@RequestHeader("auth-token") String authToken, @RequestParam("limit") int limit) throws Exception {
+        System.out.println("Controller_filesList. Auth-token: " + authToken);
+        System.out.println("Controller_list. Limit: " + limit);
+        final List<FileRequest> files = cloudServiceService.getAllFiles(authToken, limit);
+        files.forEach(System.out::println);
         return !files.isEmpty()
                 ? new ResponseEntity<>(files, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PostMapping("/file")
+    public ResponseEntity<String> uploadFileToServer(@RequestHeader("auth-token") String authToken, @RequestParam("filename") String fileName, MultipartFile file) throws Exception {
+        System.out.println("Controller_uploadFiles. Auth-token: " + authToken);
+        System.out.println("Controller_uploadFiles. FileName: " + fileName);
+        boolean successUpload = cloudServiceService.uploadFileToServer(authToken, fileName, file);
+        return successUpload
+                ? new ResponseEntity<>("Success upload " + fileName, HttpStatus.OK)
+                : new ResponseEntity<>("Error input data", HttpStatus.BAD_REQUEST);
+    }
+
+    @DeleteMapping ("/delete")
+    public ResponseEntity<String> deleteFile(@RequestHeader("auth-token") String authToken, @RequestParam("filename") String fileName) throws Exception {
+        System.out.println("Controller_deleteFiles. Auth-token: " + authToken);
+        System.out.println("Controller_deleteFiles. FileName: " + fileName);
+        boolean successDelete = cloudServiceService.deleteFile(authToken, fileName);
+        return successDelete
+                ? new ResponseEntity<>("Success deleted " + fileName, HttpStatus.OK)
+                : new ResponseEntity<>("Error input data", HttpStatus.BAD_REQUEST);
+    }
+
+
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //@RestController

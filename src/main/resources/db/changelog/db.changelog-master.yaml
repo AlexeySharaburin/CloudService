@@ -13,6 +13,10 @@ databaseChangeLog:
       file: migrations/003-fill_storage.xml
       relativeToChangelogFile: true
 
+  - include:
+      file: migrations/004-fill_storage.xml
+      relativeToChangelogFile: true
+
 
 #  - include:
 #      file: migrations/0000001.txt
