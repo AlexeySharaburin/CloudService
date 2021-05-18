@@ -14,13 +14,13 @@ import java.io.Serializable;
 @Builder
 public class FileRequest implements Serializable, Comparable<FileRequest> {
 
-    private String fileName;
+    private String filename;
 
-    private long fileSize;
+    private long size;
 
 
     @Override
     public int compareTo(FileRequest o) {
-        return (this.getFileName().compareTo(o.getFileName()));
+        return (this.getFilename().compareTo(o.getFilename()));
     }
 }

@@ -13,7 +13,7 @@ create table user_data
 create table storage
 (
     id        serial    NOT NULL primary key,
-    file_name VARCHAR(255),
+    filename VARCHAR(255),
     is_exist  boolean,
     date      timestamp not null default now(),
 --     username VARCHAR(255),

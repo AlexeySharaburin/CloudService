@@ -20,7 +20,6 @@ public class UserData implements Serializable {
     @Column(nullable = false)
     private Long id;
 
-//    @Id
     @Column(nullable = false, unique = true)
     private String username;
 

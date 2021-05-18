@@ -8,13 +8,13 @@
         <insert tableName="storage">
             <column name="user_id" value="1"/>
             <column name="is_exist" value="true"/>
-            <column name="file_name" value="0000001.txt"/>
+            <column name="filename" value="0000001.txt"/>
             <column name="file_size" value="7000"/>
         </insert>
         <insert tableName="storage">
             <column name="user_id" value="1"/>
             <column name="is_exist" value="true"/>
-            <column name="file_name" value="0000002.txt"/>
+            <column name="filename" value="0000002.txt"/>
             <column name="file_size" value="5000"/>
         </insert>
     </changeSet>

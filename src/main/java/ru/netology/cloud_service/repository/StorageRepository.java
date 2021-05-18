@@ -7,14 +7,13 @@ import org.springframework.stereotype.Repository;
 import ru.netology.cloud_service.model.Storage;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface StorageRepository extends JpaRepository<Storage, Long> {
 
     List<Storage> findByUserId(long userId);
 
-    @Query("select s from Storage s where s.fileName = :fileName")
-    Storage findByFileName(@Param("fileName") String fileName);
+    @Query("select s from Storage s where s.filename = :filename")
+    Storage findByFilename(@Param("filename") String filename);
 
 }

@@ -86,7 +86,7 @@ public class CloudServiceService {
         return null;
     }
 
-    public Boolean uploadFileToServer(String authToken, String fileName, MultipartFile file) {
+    public Boolean uploadFileToServer(String authToken, String filename, MultipartFile file) {
         String token = authToken.substring(7);
         System.out.println("Service_upload. Token: " + token);
         String username = tokenRepository.get(token);
@@ -100,10 +100,10 @@ public class CloudServiceService {
                 try {
                     byte[] bytes = file.getBytes();
 
-                    List<FileRequest> files = cloudServiceRepository.getFileNamesFromStorage(currentUserId);
+                    List<FileRequest> files = cloudServiceRepository.getFilenamesFromStorage(currentUserId);
 
-                    if (existFile(files, fileName)) {
-                        fileName = fileName + "(1)";
+                    if (existFile(files, filename)) {
+                        filename = filename + "(1)";
                     }
 
                     String dataPath = currentUser.getDataPath();
@@ -114,14 +114,14 @@ public class CloudServiceService {
                         directoryOfUser.mkdirs();
                     }
 
-                    File uploadedFile = new File(directoryOfUser.getAbsolutePath() + File.separator + fileName);
+                    File uploadedFile = new File(directoryOfUser.getAbsolutePath() + File.separator + filename);
 
                     try (var out = new FileOutputStream(uploadedFile);
                          var bos = new BufferedOutputStream(out)) {
                         bos.write(bytes, 0, bytes.length);
 
                         Storage newFile = Storage.builder()
-                                .fileName(fileName)
+                                .filename(filename)
                                 .isExist(true)
                                 .date(new Date())
                                 .userId(currentUserId)
@@ -129,7 +129,7 @@ public class CloudServiceService {
                                 .build();
 
                         if (cloudServiceRepository.saveFile(newFile)) {
-                            System.out.println("Service_upload. Success upload " + fileName);
+                            System.out.println("Service_upload. Success upload " + filename);
                             return true;
                         }
                         return false;
@@ -148,7 +148,7 @@ public class CloudServiceService {
         return false;
     }
 
-    public Boolean deleteFile(String authToken, String fileName) {
+    public Boolean deleteFile(String authToken, String filename) {
         String token = authToken.substring(7);
         System.out.println("Service_delete. Token: " + token);
         String username = tokenRepository.get(token);
@@ -158,11 +158,11 @@ public class CloudServiceService {
 
         if (currentUser != null) {
 
-            List<FileRequest> files = cloudServiceRepository.getFileNamesFromStorage(currentUserId);
+            List<FileRequest> files = cloudServiceRepository.getFilenamesFromStorage(currentUserId);
 
-            if (existFile(files, fileName)) {
-                if (cloudServiceRepository.deleteFile(fileName)) {
-                    System.out.println("Service_delete. Success deleted " + fileName);
+            if (existFile(files, filename)) {
+                if (cloudServiceRepository.deleteFile(filename)) {
+                    System.out.println("Service_delete. Success deleted " + filename);
                     return true;
                 } else {
                     System.out.println("File not found");
@@ -174,25 +174,14 @@ public class CloudServiceService {
         return false;
     }
 
-    public boolean existFile(List<FileRequest> files, String fileName) {
+    public boolean existFile(List<FileRequest> files, String filename) {
         for (FileRequest fileRequest : files) {
-            if (fileRequest.getFileName().equals(fileName)) {
+            if (fileRequest.getFilename().equals(filename)) {
                 return true;
             }
         }
         return false;
     }
-
-//    public List<FileRequest> getFileNamesFromStorage(long userId) {
-//        List<Storage> listStorage = storageRepository.findByUserId(userId);
-//        List<FileRequest> files = new ArrayList<>();
-//        for (Storage storage : listStorage) {
-//            if (storage.getIsExist()) {
-//                files.add(new FileRequest(storage.getFileName(), storage.getFileSize()));
-//            }
-//        }
-//        return files;
-//    }
 
 
 }

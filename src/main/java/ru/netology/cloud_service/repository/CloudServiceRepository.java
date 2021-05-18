@@ -29,7 +29,7 @@ public class CloudServiceRepository {
         System.out.println("Repo_listFiles. Username: " + username);
         long userId = getUser(username).getId();
         System.out.println("UserId: " + userId);
-        return getFileNamesFromStorage(userId)
+        return getFilenamesFromStorage(userId)
                 .stream()
                 .limit(limit)
                 .sorted(Comparator.naturalOrder())
@@ -47,12 +47,12 @@ public class CloudServiceRepository {
 
     }
 
-    public List<FileRequest> getFileNamesFromStorage(long userId) {
+    public List<FileRequest> getFilenamesFromStorage(long userId) {
         List<Storage> listStorage = storageRepository.findByUserId(userId);
         List<FileRequest> files = new ArrayList<>();
         for (Storage storage : listStorage) {
             if (storage.getIsExist()) {
-                files.add(new FileRequest(storage.getFileName(), storage.getFileSize()));
+                files.add(new FileRequest(storage.getFilename(), storage.getFileSize()));
             }
         }
         return files;
@@ -66,8 +66,8 @@ public class CloudServiceRepository {
         return false;
     }
 
-    public Boolean deleteFile(String fileName) {
-        Storage currentStorage = storageRepository.findByFileName(fileName);
+    public Boolean deleteFile(String filename) {
+        Storage currentStorage = storageRepository.findByFilename(filename);
         long currentId = currentStorage.getId();
         storageRepository.delete(currentStorage);
         if (storageRepository.findById(currentId) == null) {
@@ -76,34 +76,19 @@ public class CloudServiceRepository {
         return false;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //    public Boolean uploadFileToServer(String username, MultipartFile file) {
-//        System.out.println("Repo_upload. Username: " + username);
-//        long userId = userDataRepository.findByUsername(username).getId();
-//        System.out.println("UserId: " + userId);
-//
-//
-//
-//        List<Storage> listStorage = storageRepository.findByUserId(userId);
-//        if (!listStorage.isEmpty()) {
-//            return true;
-//        }
-//        return false;
-//    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //        return listStorage.stream()
@@ -111,10 +96,3 @@ public class CloudServiceRepository {
 //                .map(Storage::getFileName)
 //                .sorted(Comparator.naturalOrder())
 //                .collect(Collectors.toList());
-//List<Storage> listStorage = storageRepository.findByUserId(userId);
-//        List<FileRequest> files = new ArrayList<>();
-//        for (Storage storage : listStorage) {
-//            if (storage.getIsExist()) {
-//                files.add(new FileRequest(storage.getFileName(), storage.getFileSize()));
-//            }
-//        }

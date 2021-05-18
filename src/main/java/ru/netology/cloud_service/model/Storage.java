@@ -28,13 +28,12 @@ public class Storage implements Serializable{
     private Long id;
 
     @Column
-    private String fileName;
+    private String filename;
 
     @Column
     private Boolean isExist;
 
     @Column
-//    @Timestamp
     private Date date;
 
     @Column
@@ -43,24 +42,5 @@ public class Storage implements Serializable{
 
     @Column
     private long fileSize;
-
-//    @Column
-//    private String username;
-
-//    @ManyToOne
-//    @JoinColumn
-//    private UserData userData;
-//    private HashMap<String, Date> files;
-
-//    public static boolean flag;
-//
-//    @Override
-//    public int compareTo(Storage o) {
-////        if (flag) {
-//            return (this.getFileName().compareTo(o.getFileName()));
-////        } else {
-////            return (this.contact.getEmail().compareTo(o.contact.getEmail()));
-////        }
-//    }
 
 }

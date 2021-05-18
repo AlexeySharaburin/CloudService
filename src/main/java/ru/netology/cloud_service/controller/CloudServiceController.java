@@ -84,14 +84,15 @@ public class CloudServiceController {
     }
 
     @DeleteMapping ("/delete")
-    public ResponseEntity<String> deleteFile(@RequestHeader("auth-token") String authToken, @RequestParam("filename") String fileName) throws Exception {
+    public ResponseEntity<String> deleteFile(@RequestHeader("auth-token") String authToken, @RequestParam("filename") String filename) throws Exception {
         System.out.println("Controller_deleteFiles. Auth-token: " + authToken);
-        System.out.println("Controller_deleteFiles. FileName: " + fileName);
-        boolean successDelete = cloudServiceService.deleteFile(authToken, fileName);
+        System.out.println("Controller_deleteFiles. FileName: " + filename);
+        boolean successDelete = cloudServiceService.deleteFile(authToken, filename);
         return successDelete
-                ? new ResponseEntity<>("Success deleted " + fileName, HttpStatus.OK)
+                ? new ResponseEntity<>("Success deleted " + filename, HttpStatus.OK)
                 : new ResponseEntity<>("Error input data", HttpStatus.BAD_REQUEST);
     }
+
 
 
 

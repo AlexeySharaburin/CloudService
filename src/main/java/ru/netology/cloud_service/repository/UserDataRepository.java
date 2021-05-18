@@ -11,9 +11,4 @@ public interface UserDataRepository extends JpaRepository<UserData, Long> {
 
     UserData findByUsername(String username);
 
-
-
-
-//    List<UserData> findByUsernameAndIsEnable(String username);
-
 }
