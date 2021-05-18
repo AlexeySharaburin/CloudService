@@ -25,16 +25,6 @@ public class CloudServiceRepository {
     @Autowired
     private StorageRepository storageRepository;
 
-    public List<FileRequest> getAllFiles(String username, int limit) {
-        System.out.println("Repo_listFiles. Username: " + username);
-        long userId = getUser(username).getId();
-        System.out.println("UserId: " + userId);
-        return getFilenamesFromStorage(userId)
-                .stream()
-                .limit(limit)
-                .sorted(Comparator.naturalOrder())
-                .collect(Collectors.toList());
-    }
 
     public UserData getUser(String username) {
         UserData currentUser = userDataRepository.findByUsername(username);
@@ -68,26 +58,54 @@ public class CloudServiceRepository {
 
     public Boolean deleteFile(String filename) {
         Storage currentStorage = storageRepository.findByFilename(filename);
-        long currentId = currentStorage.getId();
-        storageRepository.delete(currentStorage);
-        if (storageRepository.findById(currentId) == null) {
+            currentStorage.setIsExist(false);
+        if (!currentStorage.getIsExist()) {
+            System.out.println("Repo_deleted. Deleted");
             return true;
         }
+        System.out.println("Repo_deleted. No deleted");
         return false;
     }
+
+    public String renameFile(String currentFilename, String newFilename) {
+        Storage currentStorage = storageRepository.findByFilename(currentFilename);
+        if (currentStorage.getIsExist()) {
+            currentStorage.setFilename(newFilename);
+            return newFilename;
+        }
+        return null;
+    }
+
+
+
+
+
+//    public Boolean deleteFile(String filename) {
+//        Storage currentStorage = storageRepository.findByFilename(filename);
+//        long currentId = currentStorage.getId();
+//        System.out.println("Repo_deleted. Id " + currentId);
+//        storageRepository.deleteById(currentId);
+//        if (!storageRepository.existsById(currentId)) {
+//            System.out.println("Repo_deleted. Deleted");
+//            return true;
+//        }
+//        System.out.println("Repo_deleted. No deleted");
+//        return false;
+//    }
 
 }
 
 
-
-
-
-
-
-
-
-
-
+//    public List<FileRequest> getAllFiles(String username, int limit) {
+//        System.out.println("Repo_listFiles. Username: " + username);
+//        long userId = getUser(username).getId();
+////        System.out.println("UserId: " + userId);
+//        return getFilenamesFromStorage(userId)
+//                .stream()
+//                .limit(limit)
+//                .sorted(Comparator.naturalOrder())
+//                .collect(Collectors.toList());
+//    }
 
 
 

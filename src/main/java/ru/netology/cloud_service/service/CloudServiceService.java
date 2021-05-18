@@ -16,10 +16,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Service
 public class CloudServiceService {
@@ -73,18 +72,17 @@ public class CloudServiceService {
         return false;
     }
 
-
     public List<FileRequest> getAllFiles(String authToken, int limit) {
         String token = authToken.substring(7);
-        System.out.println("Service_list. Token: " + token);
         String username = tokenRepository.get(token);
-        System.out.println("Service_list. Username: " + username);
-        List<FileRequest> files = cloudServiceRepository.getAllFiles(username, limit);
-        if (!files.isEmpty()) {
-            return files;
-        }
-        return null;
+        long userId = cloudServiceRepository.getUser(username).getId();
+        return cloudServiceRepository.getFilenamesFromStorage(userId)
+                .stream()
+                .limit(limit)
+                .sorted(Comparator.naturalOrder())
+                .collect(Collectors.toList());
     }
+
 
     public Boolean uploadFileToServer(String authToken, String filename, MultipartFile file) {
         String token = authToken.substring(7);
@@ -174,6 +172,44 @@ public class CloudServiceService {
         return false;
     }
 
+
+    public String renameFile(String authToken, String currentFilename) {
+        Scanner scanner = new Scanner(System.in);
+        String token = authToken.substring(7);
+        System.out.println("Service_rename. Token: " + token);
+        String username = tokenRepository.get(token);
+        System.out.println("Service_rename. Username: " + username);
+        UserData currentUser = cloudServiceRepository.getUser(username);
+        long currentUserId = currentUser.getId();
+
+        if (currentUser != null) {
+
+            List<FileRequest> files = cloudServiceRepository.getFilenamesFromStorage(currentUserId);
+
+            if (existFile(files, currentFilename)) {
+
+                System.out.printf("Rename file %s?(y/n): ", currentFilename);
+                String answer = scanner.next();
+                if (answer.equals("y")) {
+                    System.out.print("Input new filename: ");
+                    String newFilename = scanner.next();
+                    if (cloudServiceRepository.renameFile(currentFilename, newFilename) != null) {
+                        System.out.println("Service_rename. Success rename " + newFilename);
+                        return newFilename;
+                    }
+                } else {
+                    System.out.println("File name remains unchanged");
+                }
+            } else {
+                System.out.println("File not found");
+            }
+        } else {
+            System.out.println("User not found");
+        }
+        return null;
+    }
+
+
     public boolean existFile(List<FileRequest> files, String filename) {
         for (FileRequest fileRequest : files) {
             if (fileRequest.getFilename().equals(filename)) {
@@ -183,5 +219,19 @@ public class CloudServiceService {
         return false;
     }
 
-
 }
+
+
+
+
+//    public List<FileRequest> getAllFiles(String authToken, int limit) {
+//        String token = authToken.substring(7);
+//        System.out.println("Service_list. Token: " + token);
+//        String username = tokenRepository.get(token);
+//        System.out.println("Service_list. Username: " + username);
+//        List<FileRequest> files = cloudServiceRepository.getAllFiles(username, limit);
+//        if (!files.isEmpty()) {
+//            return files;
+//        }
+//        return null;
+//    }
