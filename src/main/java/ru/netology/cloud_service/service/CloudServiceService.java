@@ -191,12 +191,12 @@ public class CloudServiceService {
 
             if (existFile(files, currentFilename)) {
 
-                System.out.printf("Rename file %s?(y/n): ", currentFilename);
+                System.out.printf("Rename file %s?(y/n):", currentFilename);
                 String answer = scanner.next();
                 if (answer.equals("y")) {
                     String newFilename;
                     while (true) {
-                        System.out.print("Input new filename: ");
+                        System.out.print("Input new filename:");
                         newFilename = scanner.next();
                         if (!existFile(files, newFilename)) {
                             break;

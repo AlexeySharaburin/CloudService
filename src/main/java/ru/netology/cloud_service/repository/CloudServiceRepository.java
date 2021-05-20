@@ -12,6 +12,7 @@ import ru.netology.cloud_service.model.UserData;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -56,37 +57,46 @@ public class CloudServiceRepository {
         return false;
     }
 
-    //delete - помечать файл как удалённый
-//    public Boolean deleteFile(String filename, long currentUserId) {
-//        Storage currentStorage = storageRepository.findByFilenameAndUserId(filename, currentUserId);
-//        currentStorage.setIsExist(false);
-//        if (!currentStorage.getIsExist()) {
-//            System.out.println("Repo_deleted. Deleted");
-//            return true;
-//        }
-//        System.out.println("Repo_deleted. No deleted");
-//        return false;
-//    }
-
-    // delete - удалить файл
+    //delete - пометить файл как удалённый
     public Boolean deleteFile(String filename, long currentUserId) {
         Storage currentStorage = storageRepository.findByFilenameAndUserId(filename, currentUserId);
         UserData currentUser = userDataRepository.findById(currentUserId).orElseThrow(IllegalArgumentException::new);
-        long currentId = currentStorage.getId();
-        System.out.println("Repo_deleted. Id " + currentId);
 
         String dataPath = currentUser.getDataPath();
         String pathFile = dataPath + File.separator + filename;
+        String deleted = "_deleted at " + new Date();
         File currentFile = new File(pathFile);
-
-        storageRepository.deleteById(currentId);
-        if (!storageRepository.existsById(currentId)&&currentFile.delete()) {
+        File deletedFile = new File(pathFile + deleted);
+        currentFile.renameTo(deletedFile);
+        currentStorage.setIsExist(false);
+        currentStorage.setFilename(filename + deleted);
+        if (!currentStorage.getIsExist()) {
             System.out.println("Repo_deleted. Deleted");
             return true;
         }
         System.out.println("Repo_deleted. No deleted");
         return false;
     }
+
+    // delete - удалить файл
+//    public Boolean deleteFile(String filename, long currentUserId) {
+//        Storage currentStorage = storageRepository.findByFilenameAndUserId(filename, currentUserId);
+//        UserData currentUser = userDataRepository.findById(currentUserId).orElseThrow(IllegalArgumentException::new);
+//        long currentId = currentStorage.getId();
+//        System.out.println("Repo_deleted. Id " + currentId);
+//
+//        String dataPath = currentUser.getDataPath();
+//        String pathFile = dataPath + File.separator + filename;
+//        File currentFile = new File(pathFile);
+//
+//        storageRepository.deleteById(currentId);
+//        if (!storageRepository.existsById(currentId)&&currentFile.delete()) {
+//            System.out.println("Repo_deleted. Deleted");
+//            return true;
+//        }
+//        System.out.println("Repo_deleted. No deleted");
+//        return false;
+//    }
 
 
 
