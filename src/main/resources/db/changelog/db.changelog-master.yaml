@@ -18,9 +18,7 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
 
-#  - include:
-#      file: migrations/0000001.txt
-#      relativeToChangelogFile: true
+
 
 #  - changeSet:
 #      id: 18544

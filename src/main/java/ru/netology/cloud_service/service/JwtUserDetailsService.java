@@ -18,7 +18,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        UserData userData = userDataRepository.findByUsername(username);
+        UserData userData = userDataRepository.findByUsername(username).orElseThrow(IllegalArgumentException::new);
         if (userData == null) {
             throw new UsernameNotFoundException(username);
         }

@@ -6,7 +6,8 @@ import java.io.Serializable;
 
 public class AuthToken implements Serializable {
 
-    private static final long serialVersionUID = -8091879091924046844L;
+//    private static final long serialVersionUID = -8091879091924046844L;
+    private static final long serialVersionUID = 1L;
 
     @JsonProperty("auth-token")
     private final String authToken;

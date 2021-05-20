@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import ru.netology.cloud_service.exception.*;
 import ru.netology.cloud_service.model.*;
 import ru.netology.cloud_service.service.CloudServiceService;
 
@@ -22,13 +23,6 @@ public class CloudServiceController {
     public CloudServiceController(CloudServiceService cloudServiceService) {
         this.cloudServiceService = cloudServiceService;
     }
-
-//    @Bean(name = "multipartResolver")
-//    public CommonsMultipartResolver multipartResolver() {
-//        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-//        multipartResolver.setMaxUploadSize(100000);
-//        return multipartResolver;
-//    }
 
     @GetMapping("/encode")
     public String encodePassword(String password) {
@@ -55,8 +49,8 @@ public class CloudServiceController {
         System.out.println("Controller_logout. Auth-token: " + authToken);
         final Boolean isRemove = cloudServiceService.removeToken(authToken);
         return isRemove
-                ? new ResponseEntity<>("Token is removed", HttpStatus.OK)
-                : new ResponseEntity<>("Token is not removed", HttpStatus.NOT_FOUND);
+                ? new ResponseEntity<>("Success logout", HttpStatus.OK)
+                : new ResponseEntity<>("Unsuccess logout", HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/list")
@@ -99,6 +93,65 @@ public class CloudServiceController {
         return (newFilename != null)
                 ? new ResponseEntity<>("Success upload from" + currentFilename + "  to " + newFilename, HttpStatus.OK)
                 : new ResponseEntity<>("Error input data", HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/file")
+    public ResponseEntity<String> downloadFile(@RequestHeader("auth-token") String authToken, @RequestParam("filename") String filename) throws Exception {
+        System.out.println("Controller_downloadFiles. Auth-token: " + authToken);
+        System.out.println("Controller_downloadFiles. FileName: " + filename);
+        boolean successDownload = cloudServiceService.downloadFile(authToken, filename);
+        return successDownload
+                ? new ResponseEntity<>("Success downloaded " + filename, HttpStatus.OK)
+                : new ResponseEntity<>("Error input data", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ErrorInputData.class)
+    public ResponseEntity<ExceptionResponse> handleErrorInputData(ErrorInputData e) {
+        String msgInput = "Error input data";
+        System.out.println(msgInput);
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), 400), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ErrorBadCredentials.class)
+    public ResponseEntity<ExceptionResponse> handleErrorBadCredentials(ErrorBadCredentials e) {
+        String msgInput = "Bad Credentials";
+        System.out.println(msgInput);
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), 400), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ErrorUnauthorized.class)
+    public ResponseEntity<ExceptionResponse> handleErrorUnauthorized(ErrorUnauthorized e) {
+        String msgTransfer = "Unauthorizated error";
+        System.out.println(msgTransfer);
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), 401), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ErrorDeleteFile.class)
+    public ResponseEntity<ExceptionResponse> handleErrorDeleteFile(ErrorDeleteFile e) {
+        String msgConfirmation = "Error delete file";
+        System.out.println(msgConfirmation);
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), 500), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(ErrorUploadFile.class)
+    public ResponseEntity<ExceptionResponse> handleErrorUploadFile(ErrorUploadFile e) {
+        String msgConfirmation = "Error upload file";
+        System.out.println(msgConfirmation);
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), 500), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(ErrorDownloadFile.class)
+    public ResponseEntity<ExceptionResponse> handleErrorDownloadFile(ErrorDownloadFile e) {
+        String msgConfirmation = "Error download file";
+        System.out.println(msgConfirmation);
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), 500), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(ErrorGettingFileList.class)
+    public ResponseEntity<ExceptionResponse> handleErrorGettingFileList(ErrorGettingFileList e) {
+        String msgConfirmation = "Error getting file list";
+        System.out.println(msgConfirmation);
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage(), 500), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
