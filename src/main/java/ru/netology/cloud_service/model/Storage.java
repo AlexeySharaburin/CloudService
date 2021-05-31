@@ -1,6 +1,5 @@
 package ru.netology.cloud_service.model;
 
-import jdk.jfr.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,13 +13,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-//@Embeddable
 @Entity
-
-public class Storage implements Serializable{
-
-
-    private static int flag;
+public class Storage implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

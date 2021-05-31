@@ -18,7 +18,6 @@ public class FileRequest implements Serializable, Comparable<FileRequest> {
 
     private long size;
 
-
     @Override
     public int compareTo(FileRequest o) {
         return (this.getFilename().compareTo(o.getFilename()));

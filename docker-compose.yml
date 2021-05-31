@@ -1,6 +1,7 @@
 version: "2.0"
 
 services:
+
   front:
     image: cloud_front
     container_name: cloud_front
@@ -8,10 +9,12 @@ services:
       - 8081:8080
 
   app:
-    image: cloud_service:1.0
+    image: cloud_service:4.0
     container_name: cloud_service
     ports:
       - 8080:8080
+    volumes:
+      - /Users:/Users/
     depends_on:
       - db
     environment:
@@ -23,8 +26,22 @@ services:
     ports:
       - 5433:5432
     volumes:
-      - ./postgres_db:/var/lib/postgresql/data
+      - ./pg_db:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: alexey
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: cloud_service
+
+
+
+#  front:
+#    build:
+#      context: front/
+#      dockerfile: Dockerfile
+#    container_name: cloud_front
+#    ports:
+#      - 8081:8080
+#cloud_service: general.path = /Users/alexey/Desktop/Netology Java/Java Diplom/cloud_service/cloud_drive
+#cloud_service:2.0: general.path = /Users/alexey/Desktop/Cloud
+#cloud_service:3.0: general.path = /Users/alexey/Desktop/Cloud + /Downloads
+#cloud_service:4.0: general.path = /Users/alexey/Desktop/Cloud + /Downloads + Multipart/(1) + delete

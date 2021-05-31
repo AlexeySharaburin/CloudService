@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ExceptionResponse {
+
     private String message;
+
     private int id;
 }

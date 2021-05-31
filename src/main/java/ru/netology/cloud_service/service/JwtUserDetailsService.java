@@ -1,6 +1,5 @@
 package ru.netology.cloud_service.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,8 +12,11 @@ import ru.netology.cloud_service.repository.UserDataRepository;
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserDataRepository userDataRepository;
+    private final UserDataRepository userDataRepository;
+
+    public JwtUserDetailsService(UserDataRepository userDataRepository) {
+        this.userDataRepository = userDataRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) {

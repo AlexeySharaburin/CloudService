@@ -34,7 +34,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -73,33 +72,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 
 
-
-
-
-
-
-
-
-//    @Autowired
-//    private BeanConfiguration beanConfiguration;
-
-// {noop}
-
-//    @Bean
-//    public static NoOpPasswordEncoder passwordEncoder() {
-//        return NoOpPasswordEncoder.getInstance();
-//    }
-
-
-//    @Bean
-//    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    @Autowired
-//    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .userDetailsService(jwtUserDetailsService)
-//                .passwordEncoder(bCryptPasswordEncoder());
-//
-//    }

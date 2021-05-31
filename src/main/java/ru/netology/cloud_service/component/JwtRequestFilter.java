@@ -1,7 +1,6 @@
 package ru.netology.cloud_service.component;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,12 +18,14 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
+    private final UserDetailsService jwtUserDetailsService;
 
-    @Autowired
-    private UserDetailsService jwtUserDetailsService;
+    private final JwtTokenUtil jwtTokenUtil;
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    public JwtRequestFilter(UserDetailsService jwtUserDetailsService, JwtTokenUtil jwtTokenUtil) {
+        this.jwtUserDetailsService = jwtUserDetailsService;
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
@@ -42,10 +43,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 && requestTokenHeader.startsWith("Bearer ")
         ) {
             jwtToken = requestTokenHeader.substring(7);
-            System.out.println("JWT " + jwtToken);
+            System.out.println("JWT: " + jwtToken);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-                System.out.println("Username " + username);
+//                System.out.println("Username " + username);
             } catch (IllegalArgumentException e) {
                 System.out.println("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
@@ -75,7 +76,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             }
         }
 
-        filterChain.doFilter(httpServletRequest,httpServletResponse);
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
 
     }
 }
